@@ -10,7 +10,7 @@ export function getGuestNameFromSearch(search: string, queryParam: string) {
 
 export function createQrValue(slug: string, guestName: string) {
   const safeName = guestName.trim().toLowerCase().replace(/\s+/g, '-');
-  return `${slug}:${safeName || 'guest'}`;
+  return safeName || 'guest';
 }
 
 export function getQrPreviewUrl(value: string) {

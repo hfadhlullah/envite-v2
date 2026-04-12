@@ -43,8 +43,9 @@ export function TwoAreBetterThanOneSection({invitation}: TwoAreBetterThanOneSect
   const shouldReduceMotion = useReducedMotion();
   const {scrollYProgress} = useScroll({
     target: sectionRef,
-    offset: ['start end', 'end start'],
+    offset: ['start start', 'end end'],
   });
+  
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 95,
     damping: 28,
@@ -151,9 +152,9 @@ export function TwoAreBetterThanOneSection({invitation}: TwoAreBetterThanOneSect
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-[270vh] border-t border-white/6 bg-[linear-gradient(180deg,#060606_0%,#0b0b0b_42%,#070707_100%)] px-4 md:min-h-[320vh] md:px-10"
+      className="relative bg-[#000000] px-4 md:min-h-[220vh] md:px-10"
     >
-      <div className="mx-auto max-w-[1440px] py-10 md:py-16">
+      <div className="mx-auto max-w-[1440px] py-10 pb-10 md:py-16">
         <div className="hidden md:grid md:grid-cols-[minmax(160px,0.54fr)_minmax(440px,0.92fr)_minmax(160px,0.54fr)] md:items-stretch md:gap-10 lg:grid-cols-[minmax(170px,0.56fr)_minmax(600px,1.06fr)_minmax(170px,0.56fr)] lg:gap-16">
           <div className="space-y-[34vh] pt-[9vh]">
             {leftRail.map((image, index) => (
@@ -163,7 +164,7 @@ export function TwoAreBetterThanOneSection({invitation}: TwoAreBetterThanOneSect
                   progress={smoothProgress}
                   shouldReduceMotion={Boolean(shouldReduceMotion)}
                   direction={index % 2 === 0 ? 1 : -1}
-                  className={index % 2 === 0 ? 'ml-0 max-w-[200px]' : 'ml-10 max-w-[180px]'}
+                  className={index % 2 === 0 ? 'ml-0 max-w-[160px]' : 'ml-10 max-w-[140px]'}
                 />
               </div>
             ))}
@@ -193,15 +194,15 @@ export function TwoAreBetterThanOneSection({invitation}: TwoAreBetterThanOneSect
                   progress={smoothProgress}
                   shouldReduceMotion={Boolean(shouldReduceMotion)}
                   direction={index % 2 === 0 ? -1 : 1}
-                  className={index % 2 === 0 ? 'mr-8 ml-auto max-w-[180px]' : 'mr-0 ml-auto max-w-[210px]'}
+                  className={index % 2 === 0 ? 'mr-8 ml-auto max-w-[140px]' : 'mr-0 ml-auto max-w-[160px]'}
                 />
               </div>
             ))}
           </div>
         </div>
 
-        <div className="space-y-8 md:hidden">
-          <div className="sticky top-0 z-30 border-y border-white/8 bg-[#090909]/95 px-2 py-4 backdrop-blur-sm">
+        <div className="md:hidden">
+          <div className="sticky top-0 z-50 w-full px-2 py-4 bg-black/90">
             <h2 className="text-center font-display text-[2.25rem] leading-[0.96] tracking-[-0.025em] text-[#b88f77]">
               Two are better than one,
               <br />
@@ -248,7 +249,7 @@ function RailImageCard({
       <img
         src={image.src}
         alt={image.alt}
-        className={`${image.aspectClassName} w-full border border-white/10 object-cover shadow-[0_20px_48px_rgba(0,0,0,0.35)] will-change-transform`}
+        className={`${image.aspectClassName} w-full object-contain shadow-[0_20px_48px_rgba(0,0,0,0.35)] will-change-transform`}
         referrerPolicy="no-referrer"
       />
     </motion.figure>

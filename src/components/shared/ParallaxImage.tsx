@@ -62,7 +62,7 @@ export function ParallaxImage({
       <motion.div
         {...pointer.bind}
         style={{y, scale, ...pointer.style}}
-        className="absolute inset-0 scale-[1.12]"
+        className="absolute inset-0 scale-[0.5]"
       >
         <img
           src={src}

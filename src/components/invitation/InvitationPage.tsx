@@ -88,6 +88,7 @@ export function InvitationPage({invitation}: InvitationPageProps) {
     [0, 0.24, 0.95],
     shouldReduceMotion ? [1, 1, 1] : [1, 0.82, 0.2],
   );
+  const heroFadeOut = useTransform(heroSection.progress, [0.3, 1], [1, 0]);
   const heroMarqueeNear = useTransform(heroSection.progress, [0, 1], shouldReduceMotion ? [0, 0] : [-10, 62]);
   const heroScriptureY = useTransform(heroSection.progress, [0, 1], shouldReduceMotion ? [0, 0] : [0, 34]);
   const storyTitleY = useTransform(storyIntroSection.progress, [0, 1], shouldReduceMotion ? [0, 0] : [-20, 52]);
@@ -209,7 +210,7 @@ export function InvitationPage({invitation}: InvitationPageProps) {
               audioEnabled={isAudioEnabled}
             />
 
-            <section ref={heroSection.ref} id="home" className="relative min-h-screen overflow-hidden border-b border-white/6">
+            <motion.section ref={heroSection.ref} id="home" style={{opacity: heroFadeOut}} className="relative min-h-screen overflow-hidden">
               <motion.div
                 {...heroPointer.bind}
                 style={{...heroSection.style, ...heroPointer.style}}
@@ -232,10 +233,10 @@ export function InvitationPage({invitation}: InvitationPageProps) {
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_22%,rgba(255,255,255,0.08),transparent_42%),linear-gradient(to_bottom,rgba(0,0,0,0.26),rgba(0,0,0,0.88))]" />
 
               <div className="absolute inset-x-0 top-0 z-20">
-                <div className="mx-auto flex max-w-[1440px] items-center justify-between border-b border-white/16 px-5 py-6 md:px-10 md:py-7">
-                  <p className="text-[12px] uppercase tracking-[0.02em] text-white/52">{invitation.couple.coverLabel}</p>
-                  <p className="text-[12px] uppercase tracking-[0.02em] text-white/52">{invitation.couple.dateLabel}</p>
-                </div>
+        <div className="mx-auto flex max-w-[1440px] items-center justify-between px-5 py-8 md:px-10 md:py-7">
+          <span className="text-[14px] md:text-[25px] text-[#FFFFFF]">{invitation.couple.coverLabel}</span>
+          <span className="text-[14px] md:text-[25px] text-[#FFFFFF]">{invitation.couple.dateLabel}</span>
+        </div>
               </div>
 
               <motion.div style={{y: heroMarqueeNear, opacity: heroOpacity}} className="absolute inset-x-0 top-[13vh] z-20 px-4 md:px-0">
@@ -247,7 +248,7 @@ export function InvitationPage({invitation}: InvitationPageProps) {
                 className="relative z-10 mx-auto flex min-h-screen w-full max-w-[1440px] px-5 pt-[35vh] md:px-10 md:pt-[34vh]"
               >
                 <RevealOnScroll className="max-w-[25rem] md:max-w-[31rem]">
-                  <motion.p style={{y: heroScriptureY}} className="font-copy text-sm leading-relaxed text-white/64 md:text-[2rem] md:leading-[1.45]">
+                  <motion.p style={{y: heroScriptureY}} className="font-copy text-sm leading-relaxed text-[#FFFFFF] md:text-[1.5rem] md:leading-[1.45]">
                     &ldquo;{invitation.couple.scripture.text}&rdquo;
                   </motion.p>
                   <p className="mt-4 text-[12px] uppercase tracking-[0.01em] text-white/42 md:mt-5">
@@ -255,49 +256,82 @@ export function InvitationPage({invitation}: InvitationPageProps) {
                   </p>
                 </RevealOnScroll>
               </motion.div>
-            </section>
+            </motion.section>
 
             <TwoAreBetterThanOneSection invitation={invitation} />
 
-            <section id="profile" className="border-t border-white/6 bg-[#050505] px-5 py-24 md:px-10">
-              <div className="mx-auto max-w-[1440px] space-y-10">
+            <section id="profile" className="bg-[#000000] px-5 py-10 pb-24 md:px-10 md:pb-[600px]">
+              <div className="mx-auto max-w-[1440px] space-y-[400px] md:space-y-[600px]">
                 <ProfileCard person={invitation.couple.bride} align="left" accent={invitation.theme.accent} />
                 <ProfileCard person={invitation.couple.groom} align="right" accent={invitation.theme.accent} />
               </div>
             </section>
 
-            <section ref={storyIntroSection.ref} id="lovestory" className="relative min-h-[72vh] overflow-hidden border-t border-white/6 bg-[#050505]">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentStoryImage}
-                  initial={{opacity: 0.35, scale: 1.04}}
-                  animate={{opacity: 1, scale: 1}}
-                  exit={{opacity: 0.35, scale: 1.02}}
-                  style={{y: storyBackdropY}}
-                  transition={{duration: 1.4, ease: [0.22, 1, 0.36, 1]}}
-                  className="absolute inset-0"
-                >
-                  <img
-                    src={currentStoryImage}
-                    alt="Love story backdrop"
-                    className="h-full w-full object-cover"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute inset-0 bg-black/55" />
-                </motion.div>
-              </AnimatePresence>
+            <section ref={storyIntroSection.ref} id="lovestory" className="relative md:min-h-screen overflow-hidden bg-[#000000]">
+              {/* Mobile: Landscape image with title overlay */}
+              <div className="relative h-[56.25vw] w-full md:hidden">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentStoryImage}
+                    initial={{opacity: 0.35, scale: 1.04}}
+                    animate={{opacity: 1, scale: 1}}
+                    exit={{opacity: 0.35, scale: 1.02}}
+                    style={{y: storyBackdropY}}
+                    transition={{duration: 1.4, ease: [0.22, 1, 0.36, 1]}}
+                    className="absolute inset-0"
+                  >
+                    <img
+                      src={currentStoryImage}
+                      alt="Love story backdrop"
+                      className="h-full w-full object-cover"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute inset-0 bg-black/55" />
+                  </motion.div>
+                </AnimatePresence>
 
-              <div className="relative z-10 flex min-h-[72vh] items-center justify-center px-5 py-20 md:px-10">
-                <RevealOnScroll className="text-center">
-                  <p className="text-[10px] uppercase tracking-[0.42em] text-white/52">Love Story</p>
-                  <motion.h2 style={{y: storyTitleY}} className="mt-6 font-display text-6xl italic leading-none text-white md:text-8xl">
-                    {invitation.story.title}
-                  </motion.h2>
-                </RevealOnScroll>
+                <div className="absolute inset-0 z-10 flex items-center justify-center px-5">
+                  <RevealOnScroll className="text-center">
+                    <motion.h2 style={{y: storyTitleY}} className="font-display text-4xl italic leading-none text-white">
+                      {invitation.story.title}
+                    </motion.h2>
+                  </RevealOnScroll>
+                </div>
+              </div>
+
+              {/* Desktop: Full screen with image */}
+              <div className="hidden md:block md:h-full md:min-h-screen">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentStoryImage}
+                    initial={{opacity: 0.35, scale: 1.04}}
+                    animate={{opacity: 1, scale: 1}}
+                    exit={{opacity: 0.35, scale: 1.02}}
+                    style={{y: storyBackdropY}}
+                    transition={{duration: 1.4, ease: [0.22, 1, 0.36, 1]}}
+                    className="absolute inset-0"
+                  >
+                    <img
+                      src={currentStoryImage}
+                      alt="Love story backdrop"
+                      className="h-full w-full object-cover"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute inset-0 bg-black/55" />
+                  </motion.div>
+                </AnimatePresence>
+
+                <div className="relative z-10 flex min-h-screen items-center justify-center px-10">
+                  <RevealOnScroll className="text-center">
+                    <motion.h2 style={{y: storyTitleY}} className="font-display text-8xl italic leading-none text-white">
+                      {invitation.story.title}
+                    </motion.h2>
+                  </RevealOnScroll>
+                </div>
               </div>
             </section>
 
-            <section ref={timelineSection.ref} className="border-t border-white/6 bg-[#070707] px-5 py-24 md:px-10">
+            <section ref={timelineSection.ref} className="bg-[#000000] px-5 py-24 md:px-10">
               <motion.div style={{y: timelineSection.y}} className="mx-auto max-w-[1320px] space-y-16">
                 {invitation.story.timeline.map((entry, index) => (
                   <div key={entry.year}>
@@ -307,14 +341,14 @@ export function InvitationPage({invitation}: InvitationPageProps) {
               </motion.div>
             </section>
 
-            <section ref={countdownSection.ref} id="weddingevent" className="border-t border-white/6 bg-[#050505] px-5 py-24 md:px-10">
+            <section ref={countdownSection.ref} id="weddingevent" className="bg-[#000000] px-5 py-24 md:px-10">
               <div className="mx-auto max-w-[1440px] space-y-10">
                 <motion.div style={{y: countdownMarqueeY}}>
                   <Marquee text={invitation.countdown.label} muted className="text-white/25" />
                 </motion.div>
 
                 <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr]">
-                  <RevealOnScroll className="overflow-hidden rounded-[2rem] border border-white/10">
+                  <RevealOnScroll>
                     <ParallaxImage
                       src={invitation.countdown.image}
                       alt="Countdown scene"
@@ -326,7 +360,7 @@ export function InvitationPage({invitation}: InvitationPageProps) {
                     />
                   </RevealOnScroll>
 
-                  <RevealOnScroll delay={0.08} className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-8 md:p-12">
+                  <RevealOnScroll delay={0.08} className="bg-white/[0.03] p-8 md:p-12">
                     <motion.p style={{y: countdownTextY}} className="text-[10px] uppercase tracking-[0.35em] text-white/45">Countdown</motion.p>
                     <motion.div style={{y: countdownTextY}} className="mt-8">
                       <Countdown target={invitation.countdown.target} />
@@ -367,9 +401,20 @@ export function InvitationPage({invitation}: InvitationPageProps) {
               </div>
             </section>
 
-            <section ref={giftSection.ref} id="weddinggift" className="border-t border-black/6 bg-[#ece6de] px-5 py-24 text-[#111] md:px-10">
-              <div className="mx-auto grid max-w-[1440px] items-center gap-10 lg:grid-cols-[0.98fr_1.02fr]">
-                <RevealOnScroll>
+            <section ref={giftSection.ref} id="weddinggift" className="bg-[#ece6de] px-5 py-24 text-[#111] md:px-10">
+              <div className="mx-auto grid max-w-[1440px] gap-10 lg:grid-cols-[0.98fr_1.02fr]">
+                {/* Image first on mobile */}
+                <RevealOnScroll delay={0.1} className="md:order-2">
+                  <img
+                    src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80"
+                    alt="Gift section"
+                    className="w-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
+                </RevealOnScroll>
+
+                {/* Text and button second on mobile */}
+                <RevealOnScroll className="md:order-1">
                   <motion.p style={{y: giftTextY}} className="max-w-3xl text-3xl leading-tight text-black md:text-5xl">
                     {invitation.gift.intro}
                   </motion.p>
@@ -382,18 +427,7 @@ export function InvitationPage({invitation}: InvitationPageProps) {
                     <ArrowRight className="h-4 w-4" />
                   </button>
                 </RevealOnScroll>
-                <RevealOnScroll delay={0.1} className="overflow-hidden rounded-[2rem] border border-black/8">
-                    <ParallaxImage
-                      src={invitation.media.giftImage}
-                      alt="Gift section"
-                      className="min-h-[520px]"
-                      overlayOpacity={0.06}
-                      targetRef={giftSection.ref}
-                      enablePointer
-                      mouseStrength={18}
-                    />
-                  </RevealOnScroll>
-                </div>
+              </div>
             </section>
 
             <RsvpSection invitation={invitation} initialGuestName={guestName} />
@@ -538,7 +572,7 @@ function CoverScreen({
       </motion.div>
 
       <div className="relative z-10 flex min-h-screen flex-col justify-between px-6 py-8 text-white md:px-10 md:py-10">
-        <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.45em] text-white/65">
+        <div className="flex items-center justify-between text-[12px] uppercase tracking-[0.02em] text-white/52">
           <span>{invitation.couple.coverLabel}</span>
           <span>{invitation.couple.dateLabel}</span>
         </div>
@@ -622,7 +656,7 @@ function FakeLoader({
           />
         </div>
         <p className="shrink-0 text-[10px] uppercase tracking-[0.24em] text-black/45">
-          Loading... {Math.min(progress, 100)}%
+          Loading... {Math.round(Math.min(progress, 100))}%
         </p>
       </div>
     </motion.section>
@@ -680,54 +714,96 @@ function ProfileCard({
   const imageY = useTransform(profileParallax.progress, [0, 1], profileParallax.shouldReduceMotion ? [0, 0] : [-52, 64]);
 
   return (
-    <div ref={profileParallax.ref} className={cn('grid gap-8 lg:grid-cols-[0.84fr_1.16fr]', isRight && 'lg:grid-cols-[1.16fr_0.84fr]')}>
-      <RevealOnScroll className={cn('order-2', isRight && 'lg:order-2', !isRight && 'lg:order-1')}>
-        <motion.div style={{y: textY}} className={cn('space-y-5', isRight ? 'text-left lg:text-right' : 'text-left')}>
-          <p className="text-[10px] uppercase tracking-[0.36em] text-white/45">{person.title}</p>
-          <h3 className="font-display text-5xl italic leading-[0.94] text-white md:text-7xl">
-            ({person.nickname})
-            <br />
-            {person.fullName}
-          </h3>
-          <div className="space-y-1 text-base leading-relaxed text-white/68 md:text-lg">
-            {person.parents.map((line) => (
-              <p key={line}>{line}</p>
-            ))}
+    <div ref={profileParallax.ref} className="grid gap-8 lg:grid-cols-[0.2fr_0.2fr_0.6fr] lg:items-center">
+      {/* Title - First on mobile */}
+      {isRight && (
+        <RevealOnScroll className="lg:order-1">
+          <div className="text-center lg:pt-20">
+            <p className="text-xl uppercase tracking-[0.36em] text-white/45">{person.title}</p>
           </div>
-          {person.instagram ? (
-            <a
-              href={person.instagram}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-white/55 transition hover:text-white"
-            >
-              Follow Story
-              <ExternalLink className="h-4 w-4" />
-            </a>
-          ) : null}
+        </RevealOnScroll>
+      )}
+
+      {!isRight && (
+        <RevealOnScroll className="lg:order-1">
+          <div className="text-center lg:pt-20">
+            <p className="text-xl uppercase tracking-[0.36em] text-white/45">{person.title}</p>
+          </div>
+        </RevealOnScroll>
+      )}
+
+      {/* Image - Second on mobile */}
+      <RevealOnScroll delay={0.1} className="lg:order-2 lg:col-start-2">
+        <motion.div
+          {...imagePointer.bind}
+          style={{y: imageY, ...imagePointer.style}}
+          className="relative flex justify-center"
+        >
+          <img
+            src={person.image}
+            alt={person.fullName}
+            className="aspect-[4/5] w-full max-w-[280px] scale-[1.06] object-cover"
+            referrerPolicy="no-referrer"
+          />
         </motion.div>
       </RevealOnScroll>
 
-      <RevealOnScroll delay={0.1} className={cn('order-1', isRight ? 'lg:order-1' : 'lg:order-2')}>
-        <div className="overflow-hidden rounded-[2.25rem] border border-white/10 bg-white/[0.03] p-4">
-          <motion.div
-            {...imagePointer.bind}
-            style={{y: imageY, ...imagePointer.style}}
-            className="relative overflow-hidden rounded-[1.75rem]"
-          >
-            <img
-              src={person.image}
-              alt={person.fullName}
-              className="aspect-[4/5] w-full scale-[1.06] object-cover"
-              referrerPolicy="no-referrer"
-            />
-            <div
-              className="absolute inset-0 rounded-[1.75rem] ring-1 ring-inset"
-              style={{color: accent, boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.06)'}}
-            />
+      {/* Text (Name, Parents, Link) - Third on mobile */}
+      {isRight && (
+        <RevealOnScroll className="lg:order-3 lg:pt-20">
+          <motion.div style={{y: textY}} className="space-y-5">
+            <h3 className="font-display text-5xl italic leading-[0.94] text-white md:text-7xl">
+              ({person.nickname})
+              <br />
+              {person.fullName}
+            </h3>
+            <div className="space-y-1 text-base leading-relaxed text-white/68 md:text-lg">
+              {person.parents.map((line) => (
+                <p key={line}>{line}</p>
+              ))}
+            </div>
+            {person.instagram ? (
+              <a
+                href={person.instagram}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-white/55 transition hover:text-white"
+              >
+                Follow Story
+                <ExternalLink className="h-4 w-4" />
+              </a>
+            ) : null}
           </motion.div>
-        </div>
-      </RevealOnScroll>
+        </RevealOnScroll>
+      )}
+
+      {!isRight && (
+        <RevealOnScroll className="lg:order-3 lg:text-left lg:pt-20">
+          <motion.div style={{y: textY}} className="space-y-5">
+            <h3 className="font-display text-5xl italic leading-[0.94] text-white md:text-7xl">
+              ({person.nickname})
+              <br />
+              {person.fullName}
+            </h3>
+            <div className="space-y-1 text-base leading-relaxed text-white/68 md:text-lg">
+              {person.parents.map((line) => (
+                <p key={line}>{line}</p>
+              ))}
+            </div>
+            {person.instagram ? (
+              <a
+                href={person.instagram}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-white/55 transition hover:text-white"
+              >
+                Follow Story
+                <ExternalLink className="h-4 w-4" />
+              </a>
+            ) : null}
+          </motion.div>
+        </RevealOnScroll>
+      )}
     </div>
   );
 }
@@ -829,14 +905,11 @@ function VideoSection({
   const [hovering, setHovering] = useState(false);
   const cursorX = useMotionValue(0);
   const cursorY = useMotionValue(0);
-  const videoParallax = useSectionParallax<HTMLElement>({y: [-48, 56], scale: [1.08, 1.02]});
-  const videoPosterY = useTransform(videoParallax.progress, [0, 1], videoParallax.shouldReduceMotion ? [0, 0] : [-80, 86]);
-  const videoTextY = useTransform(videoParallax.progress, [0, 1], videoParallax.shouldReduceMotion ? [0, 0] : [-18, 24]);
 
   return (
-    <section ref={videoParallax.ref} className="border-t border-white/6 bg-[#050505] px-5 py-24 md:px-10">
+    <section className="bg-[#000000] md:h-screen">
       <div
-        className="group relative mx-auto max-w-[1440px] overflow-hidden rounded-[2.5rem] border border-white/10"
+        className="group relative h-[56.25vw] md:h-full w-full"
         onMouseEnter={() => setHovering(true)}
         onMouseLeave={() => setHovering(false)}
         onMouseMove={(event) => {
@@ -844,26 +917,13 @@ function VideoSection({
           cursorY.set(event.clientY);
         }}
       >
-        <button type="button" onClick={onOpenVideo} className="block w-full text-left">
-          <motion.img
+        <button type="button" onClick={onOpenVideo} className="block h-full w-full">
+          <img
             src={invitation.media.videoPoster}
             alt="Wedding film poster"
-            style={{y: videoPosterY}}
-            className="aspect-[16/9] w-full scale-[1.08] object-cover transition duration-700 group-hover:scale-[1.12] group-hover:brightness-[0.75]"
+            className="h-full w-full object-cover hover:brightness-100"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-black/22 transition group-hover:bg-black/35" />
-          <motion.div style={{y: videoTextY}} className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-6 p-6 md:p-10">
-            <div>
-              <p className="text-[10px] uppercase tracking-[0.35em] text-white/55">Wedding Film</p>
-              <h3 className="mt-4 font-display text-5xl italic leading-none text-white md:text-7xl">
-                Press Play
-              </h3>
-            </div>
-            <div className="hidden rounded-full border border-white/12 bg-black/30 p-4 text-white backdrop-blur-md md:block">
-              <PauseCircle className="h-7 w-7" />
-            </div>
-          </motion.div>
         </button>
 
         <AnimatePresence>
@@ -953,13 +1013,21 @@ function GallerySection({
   }, []);
 
   return (
-    <section ref={sectionRef} id="gallery" className="border-t border-black/6 bg-[#cfcfcf] px-5 py-24 text-[#111] md:px-10">
+    <section ref={sectionRef} id="gallery" className="bg-[#cfcfcf] px-5 py-24 text-[#111] md:px-10">
+      {/* Mobile: Full width text header */}
+      <div className="mb-12 md:hidden sticky top-0 bg-[#cfcfcf] py-4 -mx-5 px-5 z-10">
+        <p className="text-[10px] uppercase tracking-[0.4em] text-black/45">Gallery</p>
+        <h2 className="mt-4 font-display text-4xl italic leading-[0.92]">
+          Our Pre-wedding Celebration.
+        </h2>
+      </div>
+
       <div className="mx-auto max-w-[1440px] md:grid md:grid-cols-[minmax(240px,0.68fr)_1fr] md:items-stretch md:gap-10 lg:grid-cols-[minmax(280px,0.72fr)_1fr] lg:gap-12 xl:gap-16">
-        <div ref={leftColumnRef} className="relative mb-8 md:mb-0">
+        <div ref={leftColumnRef} className="hidden md:block relative mb-8 md:mb-0">
           <div
             ref={leftRailRef}
             style={leftRailStyle}
-            className="z-30 bg-[#cfcfcf] pb-5 pt-6 md:pb-8 md:pt-10 lg:pt-14"
+            className="z-30 bg-[#cfcfcf] pb-5 pt-6 md:sticky md:top-0 md:pb-8 md:pt-10 lg:pt-14"
           >
             <div className="max-w-[22rem] pr-4">
             <p className="text-[10px] uppercase tracking-[0.4em] text-black/45">Gallery</p>
@@ -970,7 +1038,20 @@ function GallerySection({
           </div>
         </div>
 
-        <div className="space-y-8">
+        {/* Mobile: 20% left empty, 80% right for images */}
+        <div className="grid grid-cols-[20%_80%] gap-0 md:hidden">
+          <div></div>
+          <div className="space-y-8">
+            {invitation.media.gallery.map((image, index) => (
+              <div key={image}>
+                <GalleryCard image={image} index={index} onOpenImage={onOpenImage} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop: original layout */}
+        <div className="hidden md:block space-y-8">
           {invitation.media.gallery.map((image, index) => (
             <div key={image}>
               <GalleryCard image={image} index={index} onOpenImage={onOpenImage} />
@@ -995,10 +1076,7 @@ function GalleryCard({
     <button
       type="button"
       onClick={() => onOpenImage(image)}
-      className={cn(
-        'block w-full overflow-hidden rounded-[1.5rem] border border-black/8 bg-white/40 text-left shadow-[0_12px_40px_rgba(0,0,0,0.08)] transition hover:-translate-y-1 hover:shadow-[0_18px_50px_rgba(0,0,0,0.12)]',
-        index % 5 === 0 && 'md:rounded-[2rem]',
-      )}
+      className="block w-full bg-white/40 text-left"
     >
       <img
         src={image}
@@ -1017,8 +1095,8 @@ function ThankYouSection({invitation}: {invitation: InvitationConfig}) {
   const guestPairLabel = invitation.couple.joinedName.replace(/\s*&\s*/g, ' - ').toUpperCase();
 
   return (
-    <section ref={thanksParallax.ref} className="border-t border-white/6 bg-[#050505] px-5 py-10 text-white md:px-10 md:py-8">
-      <div className="mx-auto flex min-h-[92vh] max-w-[1440px] flex-col">
+    <section className="bg-[#000000] min-h-screen px-5 py-10 text-white md:px-10 md:py-8">
+      <div className="mx-auto flex min-h-screen max-w-[1440px] flex-col">
         <div className="flex flex-1 items-center justify-center py-12 md:py-16">
           <RevealOnScroll className="mx-auto flex w-full max-w-[980px] flex-col items-center text-center">
             <motion.div style={{y: textFloat}} className="flex items-end justify-center gap-3 sm:gap-5 md:gap-6">
