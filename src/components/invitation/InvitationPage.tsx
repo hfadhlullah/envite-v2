@@ -341,18 +341,18 @@ export function InvitationPage({invitation}: InvitationPageProps) {
               </motion.div>
             </section>
 
-            <section ref={countdownSection.ref} id="weddingevent" className="bg-[#000000] px-5 py-24 md:px-10">
+            <section ref={countdownSection.ref} id="weddingevent" className="bg-[#000000] px-5 py-24 pb-[200px] md:px-10">
               <div className="mx-auto max-w-[1440px] space-y-10">
                 <motion.div style={{y: countdownMarqueeY}}>
                   <Marquee text={invitation.countdown.label} muted className="text-white/25" />
                 </motion.div>
 
-                <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr]">
+                <div className="mx-auto max-w-2xl space-y-4 text-center">
                   <RevealOnScroll>
                     <ParallaxImage
                       src={invitation.countdown.image}
                       alt="Countdown scene"
-                      className="min-h-[480px]"
+                      className="min-h-[480px] -mt-[200px]"
                       overlayOpacity={0.18}
                       targetRef={countdownSection.ref}
                       enablePointer
@@ -360,9 +360,9 @@ export function InvitationPage({invitation}: InvitationPageProps) {
                     />
                   </RevealOnScroll>
 
-                  <RevealOnScroll delay={0.08} className="bg-white/[0.03] p-8 md:p-12">
-                    <motion.p style={{y: countdownTextY}} className="text-[10px] uppercase tracking-[0.35em] text-white/45">Countdown</motion.p>
-                    <motion.div style={{y: countdownTextY}} className="mt-8">
+                  <RevealOnScroll delay={0.08}>
+                    <motion.p style={{y: countdownTextY}} className="text-2xl uppercase tracking-[0.35em] text-white/45">Countdown</motion.p>
+                    <motion.div style={{y: countdownTextY}} className="mt-4">
                       <Countdown target={invitation.countdown.target} />
                     </motion.div>
                     <a
@@ -583,7 +583,7 @@ function CoverScreen({
               {invitation.couple.joinedName}
             </h1>
           </RevealOnScroll>
-          <RevealOnScroll delay={0.08} className="mt-8 max-w-xl rounded-[1.75rem] border border-white/12 bg-black/20 px-6 py-5 backdrop-blur-md">
+          <RevealOnScroll delay={0.08} className="mt-8 max-w-xl border border-white/12 bg-black/20 px-6 py-5 backdrop-blur-md">
             <p className="text-[11px] uppercase tracking-[0.35em] text-white/55">Dear</p>
             <p className="mt-3 font-display text-4xl italic md:text-5xl">{guestName}</p>
           </RevealOnScroll>
@@ -591,7 +591,7 @@ function CoverScreen({
             <button
               type="button"
               onClick={onOpen}
-              className="mt-10 inline-flex items-center gap-3 rounded-full border border-white/16 bg-black/22 px-7 py-3 text-[10px] uppercase tracking-[0.34em] text-white transition hover:bg-white hover:text-black"
+              className="mt-10 inline-flex items-center gap-3 border border-white/16 bg-black/22 px-7 py-3 text-[10px] uppercase tracking-[0.34em] text-white transition hover:bg-white hover:text-black"
             >
               <PlayCircle className="h-4 w-4" />
               Let&apos;s Open

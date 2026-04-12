@@ -41,16 +41,16 @@ export function Countdown({target}: CountdownProps) {
   );
 
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex w-full flex-wrap justify-between gap-2 md:gap-20">
       {items.map((item) => (
         <div
           key={item.label}
-          className="flex min-w-[84px] flex-col rounded-[1.25rem] border border-white/12 bg-white/6 px-5 py-4 text-center backdrop-blur-sm"
+          className="flex flex-1 min-w-[40px] md:min-w-[40px] flex-col items-center px-1 md:px-8 py-2 md:py-4 text-center"
         >
-          <span className="font-display text-4xl leading-none text-white md:text-5xl">
+          <span className="font-[inherit] text-5xl md:text-9xl leading-none text-white">
             {String(item.value).padStart(2, '0')}
           </span>
-          <span className="mt-2 text-[10px] uppercase tracking-[0.4em] text-white/55">
+          <span className="mt-1 md:mt-1 text-[8px] md:text-[10px] uppercase tracking-[0.4em] text-white/55">
             {item.label}
           </span>
         </div>
