@@ -89,11 +89,6 @@ export function TwoAreBetterThanOneSection({invitation}: TwoAreBetterThanOneSect
     const updateRail = () => {
       frame = 0;
 
-      if (window.innerWidth < 768) {
-        setCenterRailStyle({});
-        return;
-      }
-
       const topOffset = 0;
       const sectionRect = section.getBoundingClientRect();
       const slotRect = slot.getBoundingClientRect();

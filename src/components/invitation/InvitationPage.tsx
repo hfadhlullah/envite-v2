@@ -215,7 +215,7 @@ export function InvitationPage({invitation}: InvitationPageProps) {
             initial={{opacity: 0}}
             animate={{opacity: 1}}
             exit={{opacity: 0}}
-            className="relative overflow-x-hidden"
+            className="relative"
           >
             <motion.div
               style={{scaleX: scrollYProgress}}
@@ -1146,11 +1146,6 @@ function GallerySection({
 
     const updateRail = () => {
       frame = 0;
-
-      if (window.innerWidth < 768) {
-        setLeftRailStyle({});
-        return;
-      }
 
       const topOffset = 0;
       const sectionRect = section.getBoundingClientRect();
